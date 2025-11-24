@@ -28,5 +28,3 @@ git push	                        推送本地提交到远程
 git push -u origin <branch>	        推送并设置上游分支
 git push origin --delete <branch>	删除远程分支
 git remote show origin	            查看远程仓库详情
-
-pull_test
