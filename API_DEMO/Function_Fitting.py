@@ -64,6 +64,12 @@ plt.show()
 #符号化——symbolic_formula前提
 lib = ['x','x^2','x^3','x^4','exp','log','sqrt','tanh','sin','abs','cos']
 model.auto_symbolic(lib=lib)#内部调用fix_symbolic进而调用set_mode设置为s模式
+# model.set_mode(0,0,0,mode='n')#测试，改回n模式
+# model.set_mode(0,0,1,mode='n')#测试，改回n模式
+# model.set_mode(0,1,0,mode='n')#测试，改回n模式
+# model.set_mode(0,1,1,mode='n')#测试，改回n模式
+# model.set_mode(1,0,0,mode='n')#测试，改回n模式
+# model.set_mode(1,1,0,mode='n')#测试，改回n模式
 
 #training
 results = model.fit(dataset, opt="LBFGS", steps=50);
@@ -157,3 +163,21 @@ plt.ylabel("Symbolic Prediction")
 plt.title("True vs Symbolic Prediction")
 plt.grid(True)
 plt.show()
+
+# 采用ns模式时
+# RMSE: 0.7524993
+# MAE: 0.6231215
+# Mean Relative Error: 328.82462
+# 原因：所输入的数据是由固定的符号函数所产生的，并未引入噪声，如果用B样条加入计算会引入误差导致RMSE上升
+#=====================================#
+# 采用s模式时
+# 尽可能学习到了固定的符号函数，用符号函数来表示不会引起误差
+# RMSE: 0.00030184243
+# MAE: 0.00025632174
+# Mean Relative Error: 0.09852632
+#=====================================#
+# 采用n模式时
+# RMSE: 0.015571143
+# MAE: 0.012702349
+# Mean Relative Error: 2.1250834
+# 在数据集密集处拟合好，但是泛化或者外推时能力便会很差
