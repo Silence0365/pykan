@@ -48,3 +48,12 @@ model.set_mode(0,1,0,mode='s')#仅作测试
 model(dataset['train_input']);#设置完前向传播一次查看图像
 model.plot(beta=100)
 plt.show()
+
+#plot中颜色的表示
+#紫色：符号分支 + 数值分支都激活
+
+#红色：仅符号分支激活
+
+#黑色：仅数值分支（样条）激活
+
+#白色：该连接被剪枝
