@@ -13,9 +13,9 @@ print(device)
 model = KAN(width=[2,5,1], grid=3, k=3, seed=42, device=device)
 
 # create dataset
-f = lambda x: x[:,[0]] * x[:,[1]]#f(x,y)=x*y
+#f = lambda x: x[:,[0]] * x[:,[1]]#f(x,y)=x*y
 #f = lambda x: torch.sin(torch.pi * x[:, [0]]) + torch.cos(x[:, [1]])
-# f = lambda x: torch.exp(torch.sin(torch.pi*x[:,[0]]) + x[:,[1]]**2)
+f = lambda x: torch.exp(torch.sin(torch.pi*x[:,[0]]) + x[:,[1]]**2)
 dataset = create_dataset(f, n_var=2, device=device)
 
 #data_collect
@@ -52,8 +52,8 @@ results = model.fit(dataset, opt="LBFGS", steps=50);
 train_losses += results['train_loss']
 test_losses += results['test_loss']
 
-lib = ['x','x^2','x^3','x^4','exp','log','sqrt','tanh','sin','abs','cos']
-model.auto_symbolic(lib=lib)#内部调用fix_symbolic进而调用set_mode设置为s模式
+# lib = ['x','x^2','x^3','x^4','exp','log','sqrt','tanh','sin','abs','cos']
+# model.auto_symbolic(lib=lib)#内部调用fix_symbolic进而调用set_mode设置为s模式
 # model.set_mode(0,0,0,mode='ns')#测试，改回ns模式
 # model.set_mode(0,0,1,mode='ns')#测试，改回ns模式
 # model.set_mode(0,1,0,mode='ns')#测试，改回ns模式
@@ -119,7 +119,7 @@ print("开始模型拟合评估...")
 print("="*60)
 
 # 定义真实函数
-true_function = lambda x: x[:,[0]] * x[:,[1]]
+true_function = f
 
 # 评估模型
 metrics, true_y, pred_y, x_test = evaluate_model_fit(model, true_function, n_points=5000)
