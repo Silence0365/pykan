@@ -2,25 +2,6 @@ from kan import *
 import torch
 import os
 
-
-
-# i = 0
-# # i 取决于层数
-# for i in range(2):
-#     print(f"layer{i}_spline_layer{model.act_fun[i].in_dim, model.act_fun[i].out_dim}")
-#     print(f"layer{i}_symbolic_layer{model.symbolic_fun[i].in_dim, model.symbolic_fun[i].out_dim}")
-#     print(f"layer{i}_grid:{model.act_fun[i].grid}")
-#     print(f"layer{i}_coef:{model.act_fun[i].coef}")
-#     print(f"layer{i}_fun:{model.symbolic_fun[i].funs_name}")
-#     print(f"layer{i}_mask:{model.symbolic_fun[i].mask}")
-#     print(f"layer{i}_scale_base:{model.act_fun[i].scale_base}")
-#     print(f"layer{i}_spline_base:{model.act_fun[i].scale_sp}")
-# model.plot()
-# plt.show()
-
-
-
-
 def Parameter_convert(model_path):
     model = KAN.loadckpt(model_path)#[2,3,1]
     i = 0

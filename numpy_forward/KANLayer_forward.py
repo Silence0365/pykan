@@ -1,54 +1,6 @@
 import torch
 import numpy as np
 import B_Spline
-# def forward(self, x):
-#         '''
-#         KANLayer forward given input x
-        
-#         Args:
-#         -----
-#             x : 2D torch.float
-#                 inputs, shape (number of samples, input dimension)
-#                 shape (batch, in_dim)
-            
-#         Returns:
-#         --------
-#             y : 2D torch.float
-#                 outputs, shape (number of samples, output dimension)
-#             preacts : 3D torch.float
-#                 fan out x into activations, shape (number of sampels, output dimension, input dimension)
-#             postacts : 3D torch.float
-#                 the outputs of activation functions with preacts as inputs
-#             postspline : 3D torch.float
-#                 the outputs of spline functions with preacts as inputs
-        
-#         Example
-#         -------
-#         >>> from kan.KANLayer import *
-#         >>> model = KANLayer(in_dim=3, out_dim=5)
-#         >>> x = torch.normal(0,1,size=(100,3))
-#         >>> y, preacts, postacts, postspline = model(x)
-#         >>> y.shape, preacts.shape, postacts.shape, postspline.shape
-#         '''
-#         batch = x.shape[0]
-#         #preacts = (batch,out_dim,in_dim)
-#         preacts = x[:,None,:].clone().expand(batch, self.out_dim, self.in_dim)
-#         #x传入基础函数(default：SiLU)    
-#         base = self.base_fun(x) # (batch, in_dim)
-#         #y采用B样条函数计算
-#         y = B_Spline.coef2curve(x_eval=x, grid=self.grid, coef=self.coef, k=self.k)
-#         #转化输出--对齐数据
-#         #postspline = (batch, out_dim, in_dim)
-#         postspline = y.clone().permute(0,2,1)
-#         #基础函数的缩放因子*基础函数+B样条函数缩放因子*y
-#         y = self.scale_base[None,:,:] * base[:,:,None] + self.scale_sp[None,:,:] * y
-#         #剪枝掩码
-#         y = self.mask[None,:,:] * y
-#         #
-#         postacts = y.clone().permute(0,2,1)
-#         #对y的第一项求和--in_dim--对素有输入的维度求和
-#         y = torch.sum(y, dim=1)
-#         return y, preacts, postacts, postspline
 
 def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun='identity', k=3):
     """
