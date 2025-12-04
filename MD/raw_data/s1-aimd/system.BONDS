@@ -1,0 +1,9 @@
+Neighbors of:   1 O at:   4.2069 12.1676  6.0488
+  2 H                     0.9964  Ang. Really at:   4.2069 12.1957  4.1661
+  3 H                     1.0034  Ang. Really at:   4.2069 13.9793  6.6082
+Neighbors of:   2 H at:   4.2069 12.1957  4.1661
+  1 O                     0.9964  Ang. Really at:   4.2069 12.1676  6.0488
+  3 H                     1.6003  Ang. Really at:   4.2069 13.9793  6.6082
+Neighbors of:   3 H at:   4.2069 13.9793  6.6082
+  1 O                     1.0034  Ang. Really at:   4.2069 12.1676  6.0488
+  2 H                     1.6003  Ang. Really at:   4.2069 12.1957  4.1661
