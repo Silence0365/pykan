@@ -10,7 +10,7 @@ from model import H2OKAN  # 注意：确保路径正确
 # === 配置 ===
 COORD_PATH = 'MD/process_data/coord.npy'      # (N, 3, 3)
 FORCE_PATH = 'MD/process_data/force.npy'      # (N, 3, 3)
-MODEL_CKPT = './H2O_KAN/checkpoints/h2o_kan.pth'
+MODEL_CKPT = './H2O_KAN/checkpoints/H2O.pth'
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 OUTPUT_DIR = 'KAN_H2O/Evolution'
 os.makedirs(OUTPUT_DIR, exist_ok=True)

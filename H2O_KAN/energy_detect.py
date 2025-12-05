@@ -13,7 +13,7 @@ from model import H2OKAN
 # ==============================
 INPUT_COORD_PATH = 'MD/process_data/coord.npy'      # 描述子 (1000, 3)
 ENERGY_PATH = 'MD/process_data/energy.npy'              # 真实能量 (1000,)
-MODEL_CKPT = './H2O_KAN/checkpoints/h2o_kan.pth'                              # 模型路径
+MODEL_CKPT = './H2O_KAN/checkpoints/H2O.pth'                              # 模型路径
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 # 指定输出文件夹

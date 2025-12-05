@@ -3,7 +3,7 @@ import torch
 from kan import KAN
 
 class H2OKAN(torch.nn.Module):
-    def __init__(self, width=[3, 10, 1], grid=10, k=3, device='cpu'):
+    def __init__(self, width=[3, 5, 1], grid=5, k=3, device='cpu'):
         super().__init__()
         self.kan = KAN(width=width, grid=grid, k=k, device=device)
         
