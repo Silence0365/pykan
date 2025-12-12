@@ -1,7 +1,7 @@
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
 from Descriptor_builder import simple_descriptor_builder
-from desc_differential import desc_differentialer
+from Desc_differential import desc_differentialer
 
 import numpy as np 
 
