@@ -22,37 +22,52 @@ def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun='identit
     # batch, in_dim = x.shape
     # _, out_dim, n_basis = coef.shape
 
-    #step1:计算B样条部分
-    b_splines = B_Spline.coef2curve(x,grid,coef,k)#(batch,in_dim,k)
+    #step1:计算B样条部分&力的导数部分
+    b_splines = B_Spline.coef2curve(x,grid,coef,k)# shape(batch, in_dim, out_dim)
+    db_splines_dD = B_Spline.coef2curve_derivative(x,grid,coef,k)# shape (batch, in_dim, out_dim)
 
     #step2:计算base部分
     if base_fun == 'identity':
         base = x  # (batch, in_dim)
+        dbase_dx = np.ones_like(x) # ∂/∂x identity
     elif base_fun == 'sin':
         base = np.sin(x)
+        dbase_dx = np.cos(x)  # ∂/∂x sin(x)
     elif base_fun == 'silu':
+        # x_clipped = np.clip(x, -50, 50)
+        # sigma = 1.0 / (1.0 + np.exp(-x_clipped))
+        # base = x * sigma 
+        # dbase_dx = sigma + x * sigma * (1.0 - sigma)
         base = x * (1 / (1 + np.exp(-x)))  # 近似 SiLU
+        dbase_dx = 1/(1+np.exp(-x)) + x * np.exp(-x) / (1 + np.exp(-x))**2 # ∂/∂x SiLU(x)
     else:
         raise ValueError(f"Unsupported base_fun: {base_fun}")
     
     #step3:混合输出——广播
     base_exp = base[:,:,None]    # (batch, in_dim, 1)
+    dbase_dx_exp = dbase_dx[:,:,None] # (batch, in_dim, 1)
     y = (
         scale_base[None, :, :] * base_exp +
         scale_sp[None, :, :] * b_splines
     )  # (batch, in_dim, out_dim)
 
+    df_dD = (
+        scale_base[None, :, :] * dbase_dx_exp +
+        scale_sp[None, :, :] * db_splines_dD
+    )
     #step4:应用掩模
     y = mask[None, :, :] * y
+    df_dD = mask[None, :, :] * df_dD
 
     #step5:求和y
     y_final = np.sum(y, axis=1)  # (batch, out_dim)
-    return y_final
+
+    return y_final,df_dD
 
 #
 def model_deduction(x,data,k=3,base_fun='silu'):
     """
-    模型前向传播.
+    模型能量前向传播&力反向传播梯度.
     
     Args:
         x: (batch, input_dim) — input
@@ -65,6 +80,8 @@ def model_deduction(x,data,k=3,base_fun='silu'):
     """
     current_x = x
     layer_idx = 0
+
+    J = []  # 存储每层的df_dD (B, in_dim, out_dim)
     # 遍历所有层(检查此层是否存在coef参数)
     while f'layer{layer_idx}_coef' in data:
         # 提取当前层参数
@@ -75,13 +92,23 @@ def model_deduction(x,data,k=3,base_fun='silu'):
         grid       = data[f'layer{layer_idx}_grid']
 
         # 前向
-        current_x = layer_deduction(
+        current_x,df_dD = layer_deduction(
             current_x, scale_base, scale_sp, coef, mask, grid, base_fun, k
         )
-
+        J.append(df_dD)
         layer_idx += 1
-
-    return current_x
+        
+    # 反向
+    dE_dD = np.ones_like(current_x)
+    # reversed -倒叙循环
+    for jacobian  in reversed(J):
+        # J: (B, in_dim, out_dim)
+        # grad: (B, out_dim)
+        dE_dD = np.sum(dE_dD[:, None, :] * jacobian, axis=2)  #  # grad = ∂E/∂D   shape:(batch, in_dim)
+        grad = dE_dD # 梯度∂E/∂D
+        # print("Shape:", dE_dD.shape)
+        # print("Range:", dE_dD.min(), "to", dE_dD.max())
+    return current_x,grad
 
 
 #==============================TEST================================
