@@ -1,0 +1,6 @@
+Energy & Force Prediction Performance (NumPy Implementation)
+============================================================
+Energy RMSE: 0.001030 eV
+Energy MAE : 0.000756 eV
+Force  RMSE: 0.027037 eV/Å
+Force  MAE : 0.015596 eV/Å
