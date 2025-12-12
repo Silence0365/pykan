@@ -12,7 +12,7 @@ COORD_PATH = 'MD/process_data/coord.npy'      # (N, 3, 3)
 FORCE_PATH = 'MD/process_data/force.npy'      # (N, 3, 3)
 MODEL_CKPT = './H2O_KAN/checkpoints/H2O.pth'
 DEVICE = 'cuda' if torch.cuda.is_available() else 'cpu'
-OUTPUT_DIR = 'KAN_H2O/Evolution'
+OUTPUT_DIR = 'H2O_KAN/Evolution'
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # === 1. 加载数据（保持 3D）===
@@ -36,7 +36,7 @@ R_test = torch.from_numpy(coord_test_3d).float().to(DEVICE)
 R_test.requires_grad_(True)  # ⚠️ 必须启用梯度！
 
 # === 4. 加载模型（注意 width=[3,5,1] 要和训练一致）===
-model = H2OKAN(width=[3, 5, 1], grid=5, k=3, device=DEVICE)
+model = H2OKAN(width=[3,5,1], grid=5, k=3, device=DEVICE)
 model.load_state_dict(torch.load(MODEL_CKPT, map_location=DEVICE))
 model.eval()
 
