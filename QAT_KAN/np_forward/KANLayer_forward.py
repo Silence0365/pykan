@@ -2,7 +2,7 @@ import torch
 import numpy as np
 import B_Spline
 
-def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun='identity', k=3):
+def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun = 'identity', k=3,m = 7,n = 8,Qmn_scale = 0):
     """
     Numpy实现单层前向推理
     
@@ -23,8 +23,8 @@ def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun='identit
     # _, out_dim, n_basis = coef.shape
 
     #step1:计算B样条部分&力的导数部分
-    b_splines = B_Spline.coef2curve(x,grid,coef,k)# shape(batch, in_dim, out_dim)
-    db_splines_dD = B_Spline.coef2curve_derivative(x,grid,coef,k)# shape (batch, in_dim, out_dim)
+    b_splines = B_Spline.coef2curve(x,grid,coef,k,m,n)# shape(batch, in_dim, out_dim)
+    db_splines_dD = B_Spline.coef2curve_derivative(x,grid,coef,k,m,n)# shape (batch, in_dim, out_dim)
 
     #step2:计算base部分
     if base_fun == 'identity':
@@ -47,12 +47,12 @@ def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun='identit
     base_exp = base[:,:,None]    # (batch, in_dim, 1)
     dbase_dx_exp = dbase_dx[:,:,None] # (batch, in_dim, 1)
     y = (
-        scale_base[None, :, :] * base_exp +
+        # scale_base[None, :, :] * base_exp +屏蔽了base分支
         scale_sp[None, :, :] * b_splines
     )  # (batch, in_dim, out_dim)
 
     df_dD = (
-        scale_base[None, :, :] * dbase_dx_exp +
+        #scale_base[None, :, :] * dbase_dx_exp +
         scale_sp[None, :, :] * db_splines_dD
     )
     #step4:应用掩模
@@ -61,11 +61,13 @@ def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun='identit
 
     #step5:求和y
     y_final = np.sum(y, axis=1)  # (batch, out_dim)
-
+    # rescale
+    y_final = (y_final + (1 << (n - 1))) >> n ##test--rescale
+    df_dD = (df_dD + (1 << (n - 1))) >> n ##test--rescale
     return y_final,df_dD
 
 #
-def model_deduction(x,data,k=3,base_fun='silu'):
+def model_deduction(x,data,k=3,base_fun='identity'):
     """
     模型能量前向传播&力反向传播梯度.
     
@@ -85,15 +87,20 @@ def model_deduction(x,data,k=3,base_fun='silu'):
     # 遍历所有层(检查此层是否存在coef参数)
     while f'layer{layer_idx}_coef' in data:
         # 提取当前层参数
-        scale_base = data[f'layer{layer_idx}_scale_base']
-        scale_sp   = data[f'layer{layer_idx}_spline_base']
-        coef       = data[f'layer{layer_idx}_coef']
-        mask       = data[f'layer{layer_idx}_mask']
-        grid       = data[f'layer{layer_idx}_grid']
+        scale_base          = data[f'layer{layer_idx}_scale_base']
+        scale_sp            = data[f'layer{layer_idx}_spline_base']
+        coef                = data[f'layer{layer_idx}_coef']
+        mask                = data[f'layer{layer_idx}_mask']
+        grid                = data[f'layer{layer_idx}_grid']
+        m                   = data[f'layer{layer_idx}_QAT_M_num_bits'].item() 
+        n                   = data[f'layer{layer_idx}_QAT_N_num_bits'].item() 
+        coef_proportion     = data[f'layer{layer_idx}_coef_proportion']
+        sb_proportion       = data[f'layer{layer_idx}_scale_base_proportion']
+        sp_proportion       = data[f'layer{layer_idx}_spline_proportion']
 
         # 前向
         current_x,df_dD = layer_deduction(
-            current_x, scale_base, scale_sp, coef, mask, grid, base_fun, k
+            current_x, scale_base, scale_sp, coef, mask, grid, base_fun, k, m, n,coef_proportion
         )
         J.append(df_dD)
         layer_idx += 1
