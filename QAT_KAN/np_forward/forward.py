@@ -1,3 +1,9 @@
+import sys
+import os
+# 添加上级目录
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
 from Converter import *

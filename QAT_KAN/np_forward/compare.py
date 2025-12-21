@@ -1,5 +1,9 @@
 # validate_energy_force_numpy.py
+import sys
 import os
+# 添加上级目录
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
