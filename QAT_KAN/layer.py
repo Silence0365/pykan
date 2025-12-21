@@ -3,20 +3,24 @@ from kan import *
 from kan.spline import coef2curve
 
 class QATKAN_Layer(KANLayer): # 继承KANLayer--加载kan中参数
-    def __init__(self,in_dim,out_dim,grid =5,k=3,device='cpu',M_num_bits=7,N_num_bits=8,QAT_mode=False):
+    def __init__(self,in_dim,out_dim,grid =5,k=3,device='cpu',M_num_bits=7,N_num_bits=16,QAT_mode=False):
         super().__init__(
             in_dim=in_dim,
             out_dim=out_dim,
             num=grid,
             k=k,
-            device=device) # 初始化一个kan_layer
+            device=device,
+            # 关闭base分支
+            scale_base_mu = 0,
+            scale_base_sigma = 0,
+            sb_trainable = False) # 初始化一个kan_layer
         self.M_num_bits = M_num_bits
         self.N_num_bits = N_num_bits
         self.QAT_mode = QAT_mode
         # self.kan = KAN(width=width, grid=grid, k=k, device=device) 创建了一个kan模型
     @staticmethod  #静态方法，不传 self
     # 伪量化器
-    def fake_quanter(x,M_num_bits=7,N_num_bits=8):
+    def fake_quanter(x,M_num_bits=7,N_num_bits=16):
         # Qm.n
         # M_num_bits:整数位数
         # N_num_bits:小数位数

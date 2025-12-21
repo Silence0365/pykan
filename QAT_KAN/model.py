@@ -4,7 +4,7 @@ from kan import KANLayer  # 原始 KANLayer
 from layer import *
 
 class QATKAN(nn.Module):
-    def __init__(self,grid =5,k=3,width=[3, 5, 1],device='cpu',QAT_mode =False,M_num_bits=7,N_num_bits=8):
+    def __init__(self,grid =5,k=3,width=[3, 5, 1],device='cpu',QAT_mode =False,M_num_bits=7,N_num_bits=16):
         super().__init__()
         self.layers = nn.ModuleList()
         # 构建width(len)[3-1]层
