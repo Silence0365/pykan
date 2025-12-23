@@ -27,6 +27,7 @@ def read_file(out_file):
     coords = []
     energies = []
     forces = []
+    velocities = []
     atom_types = None
 
     with open(out_file, 'r') as f:
@@ -90,8 +91,19 @@ def read_file(out_file):
                 # force_postions.append([f_x,f_y,f_z])
             forces.append(np.array(force_postions))
 
+        # 读取速度
+        vels=[]
+        if "istep, xa, va :" in line :
+            #i += 1
+            tokens = line.strip().split()
+            data_vals = list(map(float, tokens[5:]))
+            if len(data_vals) == 6 * atom_num:
+                vel_vals = data_vals[3 * atom_num:]  # 速度部分
+                vels = np.array(vel_vals).reshape((atom_num, 3))
+                velocities.append(np.array(vels))
+
     # 统一帧数
-    n_frames = min(len(boxes), len(coords), len(energies), len(forces))
+    n_frames = min(len(boxes), len(coords), len(energies), len(forces), len(velocities))
     if n_frames == 0:
         raise ValueError("No valid frame found!")
 
@@ -100,6 +112,7 @@ def read_file(out_file):
         np.array(coords[:n_frames]),
         np.array(energies[:n_frames]),
         np.array(forces[:n_frames]),
+        np.array(velocities[:n_frames]),
         atom_types
     )
 
@@ -108,7 +121,7 @@ def main():
     output_dir = 'MD/process_data'
 
     print("Parsing all data from", out_file)
-    boxes, coords, energies, forces, atom_types = read_file(out_file)
+    boxes, coords, energies, forces, velocities, atom_types = read_file(out_file)
     n_frames = boxes.shape[0]
 
     os.makedirs(output_dir, exist_ok=True)
@@ -117,6 +130,7 @@ def main():
     np.save(os.path.join(output_dir, "coord.npy"), coords.astype(np.float32))
     np.save(os.path.join(output_dir, "energy.npy"), energies.astype(np.float32))
     np.save(os.path.join(output_dir, "force.npy"), forces.astype(np.float32))
+    np.save(os.path.join(output_dir, "velocities.npy"), velocities.astype(np.float32))
     np.savetxt(os.path.join(output_dir, "type.raw"), atom_types, fmt='%d')
     
     with open(os.path.join(output_dir, "nframes"), 'w') as f:
