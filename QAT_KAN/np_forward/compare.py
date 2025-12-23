@@ -9,6 +9,9 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 
+# === 量化数据 ===
+M_num_bits =7
+N_num_bits =20
 # === 配置路径 ===
 COORD_PATH = 'MD/process_data/coord.npy'     # (N, 3, 3)
 FORCE_PATH = 'MD/process_data/force.npy'     # (N, 3, 3)
@@ -49,21 +52,21 @@ temp_coord_path = 'temp_test_coord.npy'
 np.save(temp_coord_path, coord_test_3d)
 
 # 转换模型参数
-QAT_Parameter_convert('QAT_KAN/checkpoints/QAT_model.pth')
+QAT_Parameter_convert('QAT_KAN/checkpoints/QAT_model.pth',M_num_bits=M_num_bits,N_num_bits=N_num_bits)
 
 # 构建描述符
 x_desc = simple_descriptor_builder(temp_coord_path)  # (M, in_dim)
-x_desc,scale = quantizer(x_desc,M_num_bits=7,N_num_bits=16) 
+x_desc,scale = quantizer(x_desc,M_num_bits=M_num_bits,N_num_bits=N_num_bits) 
 
 # 前向：得到能量和 dE/dD
 data = np.load('QAT_KAN/np_forward/QAT_model.npz')
 energy_pred, grad_dEdD = model_deduction(x_desc, data)  # energy_pred: (M,), grad_dEdD: (M, in_dim)
-energy_pred = energy_pred * (2**-16)
+energy_pred = energy_pred * (2**-N_num_bits)
 
 # 计算力
 dD_dR = desc_differentialer(temp_coord_path)  # (M, in_dim, 9)
 F_pred_flat = -np.sum(grad_dEdD[:, :, None] * dD_dR, axis=1)  # (M, 9)
-F_pred_flat = F_pred_flat * (2**-32)
+F_pred_flat = F_pred_flat * (2**(-2*N_num_bits))
 
 # 清理
 os.remove(temp_coord_path)

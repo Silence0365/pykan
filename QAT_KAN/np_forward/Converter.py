@@ -3,10 +3,10 @@ import torch
 import os
 import numpy as np
 
-def QAT_Parameter_convert(model_path):
+def QAT_Parameter_convert(model_path,M_num_bits= 7,N_num_bits =16):
     # === model load ===
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-    model = QATKAN(width=[3, 5, 1], grid=5, k=3, device=device,QAT_mode = True,M_num_bits= 7,N_num_bits =16)
+    model = QATKAN(width=[3, 5, 1], grid=5, k=3, device=device,QAT_mode = True,M_num_bits= M_num_bits,N_num_bits =N_num_bits)
     model.load_state_dict(torch.load(model_path, map_location=device),strict=True)
     i = 0
     num_layers = len(model.layers)

@@ -25,7 +25,7 @@ def B_batch(x, grid, k=0, extend=True, device='cpu',M_num_bits = 7, N_num_bits =
         value = (x >= grid[:, :, :-1]) & (x < grid[:, :, 1:]) # x>grid的左端点 & x<grid的右端点（定点数）
         value = value << N_num_bits #第一阶非1则0，移出浮点范围
     else:
-        B_km1 = B_batch(x[:,:,0], grid=grid[0,:,:], k= k - 1, M_num_bits = 7, N_num_bits = 16, bit_width=48)#递归计算前一阶的基函数-shape(batch,in_dim,N_{k-1})
+        B_km1 = B_batch(x[:,:,0], grid=grid[0,:,:], k= k - 1, M_num_bits = M_num_bits, N_num_bits = N_num_bits, bit_width=bit_width)#递归计算前一阶的基函数-shape(batch,in_dim,N_{k-1})
         
         #减法因广播后- shape(batch, in_dim, G−k−1)
         # (x - t_i) / (t_{i+k} - t_i)
@@ -96,7 +96,7 @@ def B_batch_derivative(x, grid, k=0, extend=True, device='cpu',M_num_bits = 7, N
         return np.zeros((batch, in_dim, basis_num), dtype=x.dtype)
         
     # B_km-1(低一级B样条函数)
-    B_km1 = B_batch(x, grid, k= k - 1, M_num_bits = 7, N_num_bits = 16, bit_width=48)
+    B_km1 = B_batch(x, grid, k= k - 1, M_num_bits = M_num_bits, N_num_bits = N_num_bits, bit_width=bit_width)
 
     # 导数计算
     fraction1_numerator   = (k * B_km1) 
@@ -211,7 +211,7 @@ def coef2curve_derivative(x_eval, grid, coef, k, M_num_bits = 7, N_num_bits = 16
         shape (batch, in_dim, out_dim)
         
     '''
-    dB = B_batch_derivative(x_eval, grid, k,M_num_bits = 7, N_num_bits = 16, bit_width=48)  # (batch, in_dim, num_basis)
+    dB = B_batch_derivative(x_eval, grid, k,M_num_bits = M_num_bits, N_num_bits=N_num_bits, bit_width=bit_width)  # (batch, in_dim, num_basis)
     # prepare for broadcast
     dB_exp = dB[:,:,None,:] # (batch, in_dim, num_basis) --> (batch, in_dim, out_dim,num_basis)
     coef_exp = coef[None,:,:,:] # (in_dim,out_dim,G+k) --> (batch,in_dim,out_dim,G+k) 
