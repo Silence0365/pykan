@@ -24,7 +24,7 @@ V_loss_force  =[]
 
 # === model init ===
 Origin_MODEL_CKPT = "QAT_KAN/checkpoints/Raw_model.pth"
-model = QATKAN(width=[3, 5, 1], grid=5, k=3, device=device,QAT_mode = True,M_num_bits= 7,N_num_bits =16)
+model = QATKAN(width=[3, 5, 1], grid=5, k=3, device=device,QAT_mode = True,M_num_bits= 7,N_num_bits =20)
 model.load_state_dict(torch.load(Origin_MODEL_CKPT, map_location=device),strict=True)
 print('Origin model Loading')
 # 量化--减低lr 
