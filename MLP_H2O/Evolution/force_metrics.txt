@@ -1,0 +1,4 @@
+MLP Force Prediction Performance
+==================================================
+RMSE: 0.02521 eV/Å
+MAE : 0.01571 eV/Å

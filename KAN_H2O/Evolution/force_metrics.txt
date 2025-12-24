@@ -1,4 +1,4 @@
 Force Prediction Performance
 ==================================================
-RMSE: 0.02704 eV/Å
-MAE : 0.01560 eV/Å
+RMSE: 0.05800 eV/Å
+MAE : 0.03652 eV/Å

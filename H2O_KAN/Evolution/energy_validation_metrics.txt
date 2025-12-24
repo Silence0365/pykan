@@ -1,5 +1,0 @@
-Energy Prediction Performance (Test Set)
-MSE  : 0.000009 eV²
-RMSE : 0.002923 eV
-MAE  : 0.001990 eV
-RMSE (kcal/mol): 0.067
