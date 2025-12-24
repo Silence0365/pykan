@@ -13,3 +13,14 @@ figures
 molecule
 applications
 experiments
+H2O_MLP/dataset.py
+H2O_MLP/MLP_energy_detect.py
+H2O_MLP/MLP_force_detect.py
+H2O_MLP/MLP_Model.py
+H2O_MLP/MLP_train.py
+H2O_MLP/plot.py
+H2O_MLP/checkpoints/MLP_H2O.pth
+H2O_MLP/Evolution/energy_scatter.png
+H2O_MLP/Evolution/energy_validation_metrics.txt
+H2O_MLP/plots/loss_curve_energy.png
+H2O_MLP/plots/loss_curve_force.png
