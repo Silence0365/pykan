@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
 from Converter import *
-from Descriptor_builder import simple_descriptor_builder
+from Descriptor_builder import Qmn_descriptor_builder
 from Desc_differential import desc_differentialer
 
 import numpy as np 
@@ -41,15 +41,15 @@ velocities = np.load(velocities_dir)[idx]  # (3, 3)
 data = np.load('QAT_KAN/np_forward/QAT_model.npz')
 
 def model_compute(coords, M_num_bits=7, N_num_bits=16):
-    np.save('temp_coord.npy', coords[None, :, :])
-    x_desc = simple_descriptor_builder('temp_coord.npy')
-    x_desc_qat, scale = quantizer(x_desc, M_num_bits, N_num_bits)
+    coords = coords[None, :, :]
+    x_qat, scale = quantizer(coords, M_num_bits, N_num_bits)
+    x_desc_qat = Qmn_descriptor_builder(x_qat)
+
     energy_qat, grad_qat = model_deduction(x_desc_qat, data)
-    dD_dR_qat = desc_differentialer('temp_coord.npy')
+    dD_dR_qat = desc_differentialer(coords)
     F_QAT = -np.sum(grad_qat[:, :, None] * dD_dR_qat, axis=1)
     energy = (energy_qat[0] * (2**-N_num_bits)).item()
     F = (F_QAT[0] * (2**(-2 * N_num_bits))).reshape(3, 3)
-    os.remove('temp_coord.npy')
     return energy, F
 
 # --- Initialize velocities ---

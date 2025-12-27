@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
 from Converter import *
-from Descriptor_builder import simple_descriptor_builder
+from Descriptor_builder import Qmn_descriptor_builder
 from Desc_differential import desc_differentialer
 
 import numpy as np 
@@ -42,27 +42,24 @@ data = np.load('QAT_KAN/np_forward/QAT_model.npz')
 
 def model_compute(coords,M_num_bits = 7 ,N_num_bits = 16):
 
-    # save coords as npy
-    np.save('temp_coord.npy', coords[None, :, :])  # shape(1, 3, 3)
+    # process x
+    x = coords[None, :, :]
 
-    # building desc and qat
-    x_desc = simple_descriptor_builder('temp_coord.npy')  # (1, in_dim)
-    x_desc_qat, scale = quantizer(x_desc, M_num_bits, N_num_bits)
+    # qat and building desc  
+    x_qat, scale = quantizer(x, M_num_bits, N_num_bits)
+    x_desc_qat = Qmn_descriptor_builder(x_qat,M_num_bits, N_num_bits)  # (1, in_dim)
 
     # model forward
     energy_qat,grad_qat = model_deduction(x_desc_qat,data)
 
     # calculate Force
-    dD_dR_qat = desc_differentialer('temp_coord.npy') # shape(batch, in_dim, parameter)
+    dD_dR_qat = desc_differentialer(x) # shape(batch, in_dim, parameter)
     F_QAT = -  np.sum(grad_qat[:, :, None] * dD_dR_qat, axis = 1)# shape(1,9)
 
     # rescale
     energy = (energy_qat[0] * (2**-N_num_bits)).item()
     F = (F_QAT[0] * (2**(-2 * N_num_bits))).reshape(3,3)
 
-    # remove temp_coord.npy
-    os.remove('temp_coord.npy')
-    
     return energy,F
 
 # --- initial ---

@@ -43,20 +43,16 @@ print(f"Test set size: {M}")
 # === 3. 构建描述符 & 前向传播（NumPy）===
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
-from Descriptor_builder import simple_descriptor_builder
+from Descriptor_builder import Qmn_descriptor_builder
 from Desc_differential import desc_differentialer
 from Converter import *
-
-# 临时保存测试坐标
-temp_coord_path = 'temp_test_coord.npy'
-np.save(temp_coord_path, coord_test_3d)
 
 # 转换模型参数
 QAT_Parameter_convert('QAT_KAN/checkpoints/QAT_model.pth',M_num_bits=M_num_bits,N_num_bits=N_num_bits)
 
 # 构建描述符
-x_desc = simple_descriptor_builder(temp_coord_path)  # (M, in_dim)
-x_desc,scale = quantizer(x_desc,M_num_bits=M_num_bits,N_num_bits=N_num_bits) 
+x_desc,scale = quantizer(coord_test_3d,M_num_bits=M_num_bits,N_num_bits=N_num_bits) 
+x_desc = Qmn_descriptor_builder(x_desc)  # (M, in_dim)
 
 # 前向：得到能量和 dE/dD
 data = np.load('QAT_KAN/np_forward/QAT_model.npz')
@@ -64,12 +60,9 @@ energy_pred, grad_dEdD = model_deduction(x_desc, data)  # energy_pred: (M,), gra
 energy_pred = energy_pred * (2**-N_num_bits)
 
 # 计算力
-dD_dR = desc_differentialer(temp_coord_path)  # (M, in_dim, 9)
+dD_dR = desc_differentialer(coord_test_3d)  # (M, in_dim, 9)
 F_pred_flat = -np.sum(grad_dEdD[:, :, None] * dD_dR, axis=1)  # (M, 9)
 F_pred_flat = F_pred_flat * (2**(-2*N_num_bits))
-
-# 清理
-os.remove(temp_coord_path)
 
 # 真实力 flatten
 force_test_flat = force_test_3d.reshape(M, -1)  # (M, 9)
