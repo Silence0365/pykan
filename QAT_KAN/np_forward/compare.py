@@ -11,7 +11,7 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error
 
 # === 量化数据 ===
 M_num_bits =7
-N_num_bits =20
+N_num_bits =24
 # === 配置路径 ===
 COORD_PATH = 'MD/process_data/coord.npy'     # (N, 3, 3)
 FORCE_PATH = 'MD/process_data/force.npy'     # (N, 3, 3)
