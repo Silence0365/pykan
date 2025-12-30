@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
 from Converter import *
-from Descriptor_builder import Qmn_descriptor_builder
+from Descriptor_builder import *
 from Desc_differential import desc_differentialer
 
 import numpy as np 
@@ -21,7 +21,7 @@ temperature = 300.0000  # K
 steps = 1000
 
 M_num_bits = 7
-N_num_bits = 20
+N_num_bits = 24
 
 AMU_TO_EVA2FS2 = 103.6427  # amu → eV·fs²/Å²
 kb = 8.6173336333e-5  # eV/K
@@ -42,8 +42,12 @@ data = np.load('QAT_KAN/np_forward/QAT_model.npz')
 
 def model_compute(coords, M_num_bits=7, N_num_bits=16):
     coords = coords[None, :, :]
-    x_qat, scale = quantizer(coords, M_num_bits, N_num_bits)
-    x_desc_qat = Qmn_descriptor_builder(x_qat)
+    x_desc = simple_descriptor_builder(coords)
+    x_desc_qat, scale = quantizer(x_desc, M_num_bits, N_num_bits)
+    # x_desc_qat = Qmn_descriptor_builder(coords)
+    # x_qat, scale = quantizer(coords, M_num_bits, N_num_bits)
+    # x_Qat_test = x_qat * (2** -N_num_bits)
+    # x_desc_qat = Qmn_descriptor_builder(x_qat)
 
     energy_qat, grad_qat = model_deduction(x_desc_qat, data)
     dD_dR_qat = desc_differentialer(coords)
