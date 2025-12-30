@@ -43,7 +43,7 @@ print(f"Test set size: {M}")
 # === 3. 构建描述符 & 前向传播（NumPy）===
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
-from Descriptor_builder import Qmn_descriptor_builder
+from Descriptor_builder import *
 from Desc_differential import desc_differentialer
 from Converter import *
 
@@ -51,12 +51,13 @@ from Converter import *
 QAT_Parameter_convert('QAT_KAN/checkpoints/QAT_model.pth',M_num_bits=M_num_bits,N_num_bits=N_num_bits)
 
 # 构建描述符
-x_desc,scale = quantizer(coord_test_3d,M_num_bits=M_num_bits,N_num_bits=N_num_bits) 
-x_desc = Qmn_descriptor_builder(x_desc)  # (M, in_dim)
+x_desc = simple_descriptor_builder(coord_test_3d)  # (M, in_dim)
+x_desc_qat,scale = quantizer(x_desc,M_num_bits=M_num_bits,N_num_bits=N_num_bits) 
+# x_desc = simple_descriptor_builder(x_desc,M_num_bits,N_num_bits)  # (M, in_dim)
 
 # 前向：得到能量和 dE/dD
 data = np.load('QAT_KAN/np_forward/QAT_model.npz')
-energy_pred, grad_dEdD = model_deduction(x_desc, data)  # energy_pred: (M,), grad_dEdD: (M, in_dim)
+energy_pred, grad_dEdD = model_deduction(x_desc_qat, data)  # energy_pred: (M,), grad_dEdD: (M, in_dim)
 energy_pred = energy_pred * (2**-N_num_bits)
 
 # 计算力
