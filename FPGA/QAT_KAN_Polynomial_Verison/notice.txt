@@ -1,0 +1,1 @@
+Notice:屏蔽了base基函数部分
