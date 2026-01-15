@@ -6,7 +6,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from model_Parameter import Parameter_convert
 from KANLayer_forward import model_deduction
 from Converter import *
-from Descriptor_builder import Qmn_descriptor_builder
+from Descriptor_builder import *
 from Desc_differential import desc_differentialer
 
 import numpy as np 
@@ -20,7 +20,7 @@ temperature = 300.0000 # 温度 (k)
 steps = 3000 # 仿真步数
 
 M_num_bits = 7
-N_num_bits = 20
+N_num_bits = 24
 
 # 单位转化因子
 AMU_TO_EVA2FS2 = 103.6427  # 1 amu = 103.6427 eV·fs²/Å²
@@ -49,8 +49,10 @@ def model_compute(coords,M_num_bits = 7 ,N_num_bits = 16):
     x = coords[None, :, :]
 
     # qat and building desc  
-    x_qat, scale = quantizer(x, M_num_bits, N_num_bits)
-    x_desc_qat = Qmn_descriptor_builder(x_qat,M_num_bits, N_num_bits)  # (1, in_dim)
+    x_desc = simple_descriptor_builder(x) 
+    x_desc_qat,scale = quantizer(x_desc, M_num_bits, N_num_bits)
+    # x_qat, scale = quantizer(x, M_num_bits, N_num_bits)
+    # x_desc_qat = Qmn_descriptor_builder(x_qat,M_num_bits, N_num_bits)  # (1, in_dim)
 
     # model forward
     energy_qat,grad_qat = model_deduction(x_desc_qat,data)
@@ -101,20 +103,22 @@ def get_geometry(coords):
 
 # --- Verlet Loop ---
 for step in range(steps):
-    # step1: update position
-    coords += v * dt + 0.5 * acceleration * dt ** 2
+    # step1: update v_half
+    v_half = v + 0.5 * acceleration * dt
 
-    # step2: calculate force and energy
+    # step2: update position
+    coords += v_half * dt
+
+    # step3: calculate force and energy
     Ep,force_new = model_compute(coords,M_num_bits,N_num_bits)
     acceleration_new = force_new / (masses[:,None] * AMU_TO_EVA2FS2)
     total_force_xyz = np.sum(force_new, axis=0)  # shape (3,) #xyz_force
     total_force = np.linalg.norm(total_force_xyz) #force合力
 
-    # step3: update v
-    v += 0.5 * (acceleration + acceleration_new) * dt
-    
+    # step4: update v
+    v = v_half + 0.5 * acceleration_new * dt
 
-    # step4: calculate total energy
+    # step5: calculate total energy
     Ek = 0.5 * np.sum(masses[:,None]* v **2) * AMU_TO_EVA2FS2 
     E = Ek + Ep
 
