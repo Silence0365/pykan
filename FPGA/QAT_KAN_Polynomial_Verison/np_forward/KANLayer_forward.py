@@ -4,7 +4,7 @@ import torch
 import numpy as np
 import B_Spline
 import Piecewise_polynomial
-
+import Convert_to_coe
 def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun = 'identity', k=3,m = 7,n = 8,Qmn_scale = 0):
     """
     Numpy实现单层前向推理
@@ -26,16 +26,16 @@ def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun = 'ident
     # _, out_dim, n_basis = coef.shape
 
     y = Piecewise_polynomial.calculate_Piecewise_polynomial(x, grid, coef, scale_sp, k, m, n)
-    y = y << n
+    # y = y << n
     y = mask[None, :, :] * y
     df_dD = Piecewise_polynomial.calculate_Piecewise_polynomial_derivative(x, grid, coef, scale_sp, k, m, n)
-    df_dD = df_dD << n
+    # df_dD = df_dD << n
     df_dD = mask[None, :, :] * df_dD
 
     #step5:求和y
     y_final = np.sum(y, axis=1)  # (batch, out_dim)
     # rescale
-    y_final = (y_final + (1 << (n - 1))) >> n ##test--rescale
+    #y_final = (y_final + (1 << (n - 1))) >> n ##test--rescale
     df_dD = (df_dD + (1 << (n - 1))) >> n ##test--rescale
     return y_final,df_dD
 
@@ -75,6 +75,8 @@ def model_deduction(x,data,k=3,base_fun='identity'):
         current_x,df_dD = layer_deduction(
             current_x, scale_base, scale_sp, coef, mask, grid, base_fun, k, m, n,coef_proportion
         )
+        coeff = Piecewise_polynomial.Piecewise_polynomial_table(grid,coef,scale_sp,k,m, n, bit_width=32)
+        Convert_to_coe.coeff_to_coe(coeff, f"layer{layer_idx}_coeff", bit_width=32,save_dir="./pykan/FPGA/COE")
         J.append(df_dD)
         layer_idx += 1
         
