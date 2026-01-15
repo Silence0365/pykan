@@ -14,13 +14,13 @@ from Desc_differential import desc_differentialer
 
 import numpy as np 
 
-coord_dir = '././MD/process_data/coord.npy'
-QAT_Parameter_convert('QAT_KAN/checkpoints/QAT_model.pth',M_num_bits=7,N_num_bits=24)
+coord_dir = "D:/KAN/pykan/MD/process_data/coord.npy"
+QAT_Parameter_convert("D:/KAN/pykan/FPGA/QAT_KAN_Polynomial_Verison/checkpoints/QAT_model.pth",M_num_bits=7,N_num_bits=24)
 coords =np.load(coord_dir)  
 x = simple_descriptor_builder(coords)
 x_QAT,scale = quantizer(x,M_num_bits=7,N_num_bits=24)
 # x_QAT = Qmn_descriptor_builder(coords_QAT,M_num_bits=7,N_num_bits=20)
-data = np.load('QAT_KAN/np_forward/QAT_model.npz')
+data = np.load("D:/KAN/pykan/FPGA/QAT_KAN_Polynomial_Verison/np_forward/QAT_model.npz")
 y,grad = model_deduction(x_QAT,data)
 #print(f"force.shape{force.shape}")
 # print(f"final_energy{y}")
