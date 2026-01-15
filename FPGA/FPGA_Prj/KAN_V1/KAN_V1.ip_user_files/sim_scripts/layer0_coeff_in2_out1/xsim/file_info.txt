@@ -1,0 +1,2 @@
+layer0_coeff_in2_out1.v,verilog,xil_defaultlib,../../../../KAN_V1.gen/sources_1/ip/layer0_coeff_in2_out1/sim/layer0_coeff_in2_out1.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v

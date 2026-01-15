@@ -1,0 +1,26 @@
+
+*** Running vivado
+    with args -log layer0_coeff_in0_out0.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source layer0_coeff_in0_out0.tcl
+
+
+ECHO 处于关闭状态。
+ECHO 处于关闭状态。
+
+****** Vivado v2023.2 (64-bit)
+  **** SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+  **** IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+  **** SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source layer0_coeff_in0_out0.tcl -notrace
+create_project: Time (s): cpu = 00:00:08 ; elapsed = 00:00:08 . Memory (MB): peak = 469.801 ; gain = 183.520
+INFO: [IP_Flow 19-6924] IPCACHE: Running cache check for IP inst: layer0_coeff_in0_out0
+INFO: [IP_Flow 19-6922] IPCACHE: Exporting cached entry e130cdb15545affa to dir: D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.runs/layer0_coeff_in0_out0_synth_1
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/KAN/FPGA_Prj/KAN_V1/KAN_V1.cache/ip/2023.2/e/1/e130cdb15545affa/layer0_coeff_in0_out0.dcp to D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.runs/layer0_coeff_in0_out0_synth_1/layer0_coeff_in0_out0.dcp.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/KAN/FPGA_Prj/KAN_V1/KAN_V1.cache/ip/2023.2/e/1/e130cdb15545affa/layer0_coeff_in0_out0_sim_netlist.v to D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.runs/layer0_coeff_in0_out0_synth_1/layer0_coeff_in0_out0_sim_netlist.v.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/KAN/FPGA_Prj/KAN_V1/KAN_V1.cache/ip/2023.2/e/1/e130cdb15545affa/layer0_coeff_in0_out0_sim_netlist.vhdl to D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.runs/layer0_coeff_in0_out0_synth_1/layer0_coeff_in0_out0_sim_netlist.vhdl.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/KAN/FPGA_Prj/KAN_V1/KAN_V1.cache/ip/2023.2/e/1/e130cdb15545affa/layer0_coeff_in0_out0_stub.v to D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.runs/layer0_coeff_in0_out0_synth_1/layer0_coeff_in0_out0_stub.v.
+INFO: [IP_Flow 19-6928] IPCACHE: copied cached file d:/KAN/FPGA_Prj/KAN_V1/KAN_V1.cache/ip/2023.2/e/1/e130cdb15545affa/layer0_coeff_in0_out0_stub.vhdl to D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.runs/layer0_coeff_in0_out0_synth_1/layer0_coeff_in0_out0_stub.vhdl.
+INFO: [IP_Flow 19-4838] Using cached IP synthesis design for IP layer0_coeff_in0_out0, cache-ID = e130cdb15545affa.
+INFO: [Common 17-206] Exiting Vivado at Sat Jan 10 05:27:27 2026...
