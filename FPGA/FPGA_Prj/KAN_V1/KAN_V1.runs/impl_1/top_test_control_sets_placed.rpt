@@ -1,0 +1,89 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2023.2 (win64) Build 4029153 Fri Oct 13 20:14:34 MDT 2023
+| Date         : Fri Jan 16 00:21:55 2026
+| Host         : Silence running 64-bit major release  (build 9200)
+| Command      : report_control_sets -verbose -file top_test_control_sets_placed.rpt
+| Design       : top_test
+| Device       : xc7z020
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |    11 |
+|    Minimum number of control sets                        |    11 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |    11 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |    11 |
+| >= 0 to < 4        |     0 |
+| >= 4 to < 6        |     2 |
+| >= 6 to < 8        |     0 |
+| >= 8 to < 10       |     1 |
+| >= 10 to < 12      |     0 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     0 |
+| >= 16              |     8 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |               4 |            3 |
+| No           | No                    | Yes                    |             272 |           72 |
+| No           | Yes                   | No                     |               8 |            7 |
+| Yes          | No                    | No                     |              64 |           19 |
+| Yes          | No                    | Yes                    |               4 |            1 |
+| Yes          | Yes                   | No                     |             325 |          115 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++----------------+-------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+|  Clock Signal  |                  Enable Signal                  |           Set/Reset Signal           | Slice Load Count | Bel Load Count | Bels / Slice |
++----------------+-------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+|  clk_IBUF_BUFG |                                                 |                                      |                3 |              4 |         1.33 |
+|  clk_IBUF_BUFG | BSU_TEST/internal_finder/coeff_rdy_reg[0]       | rst_IBUF                             |                1 |              4 |         4.00 |
+|  clk_IBUF_BUFG |                                                 | BSU_TEST/mac1/x_temp0                |                7 |              8 |         1.14 |
+|  clk_IBUF_BUFG | BSU_TEST/mac1/E[0]                              | BSU_TEST/mac1/x_temp0                |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG | BSU_TEST/internal_finder/mul                    | BSU_TEST/internal_finder/coeff_addr0 |               15 |             32 |         2.13 |
+|  clk_IBUF_BUFG | BSU_TEST/internal_finder/E[0]                   | BSU_TEST/mac1/x_temp0                |               10 |             32 |         3.20 |
+|  clk_IBUF_BUFG | BSU_TEST/internal_finder/mac_rdy_reg[0]         | BSU_TEST/mac1/x_temp0                |                9 |             32 |         3.56 |
+|  clk_IBUF_BUFG | BSU_TEST/internal_finder/internal_finder_locked | BSU_TEST/internal_finder/coeff_addr0 |               24 |             37 |         1.54 |
+|  clk_IBUF_BUFG | BSU_TEST/internal_finder/mul                    |                                      |               19 |             64 |         3.37 |
+|  clk_IBUF_BUFG | BSU_TEST/mac1/FSM_sequential_st_cur_reg[1]_1    | BSU_TEST/mac1/x_temp0                |               48 |            160 |         3.33 |
+|  clk_IBUF_BUFG |                                                 | rst_IBUF                             |               72 |            272 |         3.78 |
++----------------+-------------------------------------------------+--------------------------------------+------------------+----------------+--------------+
+
+

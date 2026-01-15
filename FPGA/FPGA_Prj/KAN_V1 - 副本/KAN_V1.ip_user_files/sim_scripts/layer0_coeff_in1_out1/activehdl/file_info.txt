@@ -1,0 +1,3 @@
+blk_mem_gen_v8_4.v,verilog,blk_mem_gen_v8_4_7,../../../ipstatic/simulation/blk_mem_gen_v8_4.v,
+layer0_coeff_in1_out1.v,verilog,xil_defaultlib,../../../../KAN_V1.gen/sources_1/ip/layer0_coeff_in1_out1/sim/layer0_coeff_in1_out1.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v

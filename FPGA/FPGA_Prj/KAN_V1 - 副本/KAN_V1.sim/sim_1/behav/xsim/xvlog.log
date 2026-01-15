@@ -1,0 +1,10 @@
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.gen/sources_1/ip/layer0_coeff_in0_out0/sim/layer0_coeff_in0_out0.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module layer0_coeff_in0_out0
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.srcs/sources_1/new/BSU.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module BSU
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.srcs/sources_1/new/internal_finder.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module internal_finder
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.srcs/sources_1/new/mac.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module mac
+INFO: [VRFC 10-2263] Analyzing Verilog file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.srcs/sim_1/new/tb_bsu.v" into library xil_defaultlib
+INFO: [VRFC 10-311] analyzing module tb_bsu

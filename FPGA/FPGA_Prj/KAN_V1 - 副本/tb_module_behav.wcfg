@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="tb_bsu_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="tb_bsu" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="359.201 ns"></ZoomEndTime>
+      <Cursor1Time time="90.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="381"></NameColumnWidth>
+      <ValueColumnWidth column_width="116"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="11" />
+   <wvobject fp_name="/tb_bsu/clk" type="logic">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_bsu/rst" type="logic">
+      <obj_property name="ElementShortName">rst</obj_property>
+      <obj_property name="ObjectShortName">rst</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_bsu/en" type="logic">
+      <obj_property name="ElementShortName">en</obj_property>
+      <obj_property name="ObjectShortName">en</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_bsu/BSU_TEST/st_cur" type="array">
+      <obj_property name="ElementShortName">st_cur[2:0]</obj_property>
+      <obj_property name="ObjectShortName">st_cur[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="group271" type="group">
+      <obj_property name="label">Internal Finder</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/internal_finder/st_cur" type="array">
+         <obj_property name="ElementShortName">st_cur[2:0]</obj_property>
+         <obj_property name="ObjectShortName">st_cur[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/internal_finder/st_next" type="array">
+         <obj_property name="ElementShortName">st_next[2:0]</obj_property>
+         <obj_property name="ObjectShortName">st_next[2:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/if_diff" type="array">
+         <obj_property name="ElementShortName">if_diff[31:0]</obj_property>
+         <obj_property name="ObjectShortName">if_diff[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/internal_finder/mul" type="array">
+         <obj_property name="ElementShortName">mul[63:0]</obj_property>
+         <obj_property name="ObjectShortName">mul[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/internal_finder/interval" type="array">
+         <obj_property name="ElementShortName">interval[31:0]</obj_property>
+         <obj_property name="ObjectShortName">interval[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/internal_finder/coeff_addr" type="array">
+         <obj_property name="ElementShortName">coeff_addr[7:0]</obj_property>
+         <obj_property name="ObjectShortName">coeff_addr[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/internal_finder/local_coords" type="array">
+         <obj_property name="ElementShortName">local_coords[31:0]</obj_property>
+         <obj_property name="ObjectShortName">local_coords[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/if_rdy" type="logic">
+         <obj_property name="ElementShortName">if_rdy</obj_property>
+         <obj_property name="ObjectShortName">if_rdy</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/internal_finder/output_locked" type="logic">
+         <obj_property name="ElementShortName">output_locked</obj_property>
+         <obj_property name="ObjectShortName">output_locked</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group372" type="group">
+      <obj_property name="label">U_CAL</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mul_count" type="array">
+         <obj_property name="ElementShortName">mul_count[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mul_count[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/first_mul" type="logic">
+         <obj_property name="ElementShortName">first_mul</obj_property>
+         <obj_property name="ObjectShortName">first_mul</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac0/acc_reg" type="logic">
+         <obj_property name="ElementShortName">acc_reg</obj_property>
+         <obj_property name="ObjectShortName">acc_reg</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/input_data_end" type="logic">
+         <obj_property name="ElementShortName">input_data_end</obj_property>
+         <obj_property name="ObjectShortName">input_data_end</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_rdy0" type="logic">
+         <obj_property name="ElementShortName">mac_rdy0</obj_property>
+         <obj_property name="ObjectShortName">mac_rdy0</obj_property>
+         <obj_property name="CustomSignalColor">#FAAFBE</obj_property>
+         <obj_property name="UseCustomSignalColor">true</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac0/in_a" type="array">
+         <obj_property name="ElementShortName">in_a[31:0]</obj_property>
+         <obj_property name="ObjectShortName">in_a[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac0/in_b" type="array">
+         <obj_property name="ElementShortName">in_b[31:0]</obj_property>
+         <obj_property name="ObjectShortName">in_b[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac0/out_mac" type="array">
+         <obj_property name="ElementShortName">out_mac[63:0]</obj_property>
+         <obj_property name="ObjectShortName">out_mac[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/x" type="array">
+         <obj_property name="ElementShortName">x[31:0]</obj_property>
+         <obj_property name="ObjectShortName">x[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/x_2" type="array">
+         <obj_property name="ElementShortName">x_2[31:0]</obj_property>
+         <obj_property name="ObjectShortName">x_2[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/x_3" type="array">
+         <obj_property name="ElementShortName">x_3[31:0]</obj_property>
+         <obj_property name="ObjectShortName">x_3[31:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group371" type="group">
+      <obj_property name="label">Coeff_ROM</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/ROM_Count" type="array">
+         <obj_property name="ElementShortName">ROM_Count[3:0]</obj_property>
+         <obj_property name="ObjectShortName">ROM_Count[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/coeff_addr" type="array">
+         <obj_property name="ElementShortName">coeff_addr[7:0]</obj_property>
+         <obj_property name="ObjectShortName">coeff_addr[7:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/Coeff_Rom_en" type="logic">
+         <obj_property name="ElementShortName">Coeff_Rom_en</obj_property>
+         <obj_property name="ObjectShortName">Coeff_Rom_en</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/coeff_data" type="array">
+         <obj_property name="ElementShortName">coeff_data[31:0]</obj_property>
+         <obj_property name="ObjectShortName">coeff_data[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/coeff_rdy" type="logic">
+         <obj_property name="ElementShortName">coeff_rdy</obj_property>
+         <obj_property name="ObjectShortName">coeff_rdy</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group746" type="group">
+      <obj_property name="label">MAC0</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/en_mac" type="logic">
+         <obj_property name="ElementShortName">en_mac</obj_property>
+         <obj_property name="ObjectShortName">en_mac</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_count" type="array">
+         <obj_property name="ElementShortName">mac_count[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_count[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_ina0" type="array">
+         <obj_property name="ElementShortName">mac_ina0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_ina0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_inb0" type="array">
+         <obj_property name="ElementShortName">mac_inb0[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_inb0[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_out0" type="array">
+         <obj_property name="ElementShortName">mac_out0[63:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_out0[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_rdy0" type="logic">
+         <obj_property name="ElementShortName">mac_rdy0</obj_property>
+         <obj_property name="ObjectShortName">mac_rdy0</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="group59" type="group">
+      <obj_property name="label">MAC1</obj_property>
+      <obj_property name="DisplayName">label</obj_property>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/en_mac" type="logic">
+         <obj_property name="ElementShortName">en_mac</obj_property>
+         <obj_property name="ObjectShortName">en_mac</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_count" type="array">
+         <obj_property name="ElementShortName">mac_count[3:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_count[3:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_ina1" type="array">
+         <obj_property name="ElementShortName">mac_ina1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_ina1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_inb1" type="array">
+         <obj_property name="ElementShortName">mac_inb1[31:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_inb1[31:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_out1" type="array">
+         <obj_property name="ElementShortName">mac_out1[63:0]</obj_property>
+         <obj_property name="ObjectShortName">mac_out1[63:0]</obj_property>
+      </wvobject>
+      <wvobject fp_name="/tb_bsu/BSU_TEST/mac_rdy1" type="logic">
+         <obj_property name="ElementShortName">mac_rdy1</obj_property>
+         <obj_property name="ObjectShortName">mac_rdy1</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject fp_name="/tb_bsu/BSU_TEST/BSU_out1" type="array">
+      <obj_property name="ElementShortName">BSU_out1[63:0]</obj_property>
+      <obj_property name="ObjectShortName">BSU_out1[63:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/tb_bsu/BSU_TEST/BSU_out2" type="array">
+      <obj_property name="ElementShortName">BSU_out2[63:0]</obj_property>
+      <obj_property name="ObjectShortName">BSU_out2[63:0]</obj_property>
+   </wvobject>
+</wave_config>

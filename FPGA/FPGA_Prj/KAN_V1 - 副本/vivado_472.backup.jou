@@ -1,0 +1,260 @@
+#-----------------------------------------------------------
+# Vivado v2023.2 (64-bit)
+# SW Build 4029153 on Fri Oct 13 20:14:34 MDT 2023
+# IP Build 4028589 on Sat Oct 14 00:45:43 MDT 2023
+# SharedData Build 4025554 on Tue Oct 10 17:18:54 MDT 2023
+# Start of session at: Sat Jan 10 19:29:10 2026
+# Process ID: 472
+# Current directory: D:/KAN/FPGA_Prj/KAN_V1
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent27348 D:\KAN\FPGA_Prj\KAN_V1\KAN_V1.xpr
+# Log file: D:/KAN/FPGA_Prj/KAN_V1/vivado.log
+# Journal file: D:/KAN/FPGA_Prj/KAN_V1\vivado.jou
+# Running On: Silence, OS: Windows, CPU Frequency: 2895 MHz, CPU Physical cores: 16, Host memory: 14888 MB
+#-----------------------------------------------------------
+start_gui
+open_project D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.xpr
+update_compile_order -fileset sources_1
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+relaunch_sim
+relaunch_sim
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+set log_file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.sim/sim_1/behav/xsim/xvlog.log"
+if {[file exists $log_file]} {
+    set fp [open $log_file r]
+    set content [read $fp]
+    close $fp
+    puts $content
+} else {
+    puts "日志文件不存在！请检查路径。"
+}
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+relaunch_sim
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+set log_file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.sim/sim_1/behav/xsim/xvlog.log"
+if {[file exists $log_file]} {
+    set fp [open $log_file r]
+    set content [read $fp]
+    close $fp
+    puts $content
+} else {
+    puts "日志文件不存在！请检查路径。"
+}
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+update_compile_order -fileset sources_1
+update_compile_order -fileset sources_1
+close_sim
+launch_simulation
+launch_simulation
+launch_simulation
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+relaunch_sim
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+open_run impl_1
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+relaunch_sim
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+relaunch_sim
+update_compile_order -fileset sources_1
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+relaunch_sim
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+update_compile_order -fileset sources_1
+relaunch_sim
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+update_compile_order -fileset sources_1
+close_sim
+launch_simulation
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+relaunch_sim
+save_wave_config {D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg}
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+report_utilization -name utilization_1
+open_run synth_1 -name synth_1
+synth_design -rtl -rtl_skip_mlo -name rtl_1
+current_design impl_1
+close_sim
+launch_simulation
+set log_file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.sim/sim_1/behav/xsim/xvlog.log"
+if {[file exists $log_file]} {
+    set fp [open $log_file r]
+    set content [read $fp]
+    close $fp
+    puts $content
+} else {
+    puts "日志文件不存在！请检查路径。"
+}
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+report_utilization -name utilization_1
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+report_utilization -name utilization_1
+reset_run synth_1
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design
+report_utilization -name utilization_1
+reset_run synth_1
+close_sim
+launch_simulation
+set log_file "D:/KAN/FPGA_Prj/KAN_V1/KAN_V1.sim/sim_1/behav/xsim/xvlog.log"
+if {[file exists $log_file]} {
+    set fp [open $log_file r]
+    set content [read $fp]
+    close $fp
+    puts $content
+} else {
+    puts "日志文件不存在！请检查路径。"
+}
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+close_sim
+launch_simulation
+open_wave_config D:/KAN/FPGA_Prj/KAN_V1/tb_module_behav.wcfg
+source tb_bsu.tcl
+launch_runs impl_1 -jobs 8
+wait_on_run impl_1
+refresh_design

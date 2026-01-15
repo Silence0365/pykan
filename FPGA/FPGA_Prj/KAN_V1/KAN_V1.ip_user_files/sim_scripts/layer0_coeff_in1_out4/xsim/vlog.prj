@@ -1,0 +1,7 @@
+verilog xil_defaultlib  \
+"../../../../KAN_V1.gen/sources_1/ip/layer0_coeff_in1_out4/sim/layer0_coeff_in1_out4.v" \
+
+verilog xil_defaultlib "glbl.v"
+
+# Do not sort compile order
+nosort
