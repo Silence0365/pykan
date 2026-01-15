@@ -120,19 +120,30 @@ def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 
         xd = x_eval[:, d]          # (batch,)
         grid_d = grid[d]           # (G,)
         h = grid_d[1] - grid_d[0]  # 步长
+        h_inv = int(round((1 << (2*N_num_bits)) / h)) # FPGA方法
 
-        # 找区间
-        j = np.searchsorted(grid_d, xd, side='right') - 1
-        j = np.clip(j, 0, len(grid_d) - 2)
+        # # # 找区间
+        # j = np.searchsorted(grid_d, xd, side='right') - 1
+        # j = np.clip(j, 0, len(grid_d) - 2)
 
-        # 局部坐标
-        # u = (xd - grid_d[j]) // h   # (batch,)
-        diff = xd - grid_d[j]
-        u = (diff << N_num_bits) // h  
-        u = u[:, None]             # (batch, 1) 用于广播
+        # # 局部坐标
+        # # u = (xd - grid_d[j]) // h   # (batch,)
+        # diff = xd - grid_d[j]
+        
+        # u = (diff * h_inv) >> N_num_bits
+        # u = u[:, None]             # (batch, 1) 用于广播
+
+        # FPGA 中IF方法
+        x_initial = grid_d[0]
+        diff = xd - x_initial
+        mul = diff * h_inv
+        interval = mul >> (2 * N_num_bits)
+        interval = np.clip(interval, 0, len(grid_d) - 2)
+        u = (mul - (interval << (2 * N_num_bits))) >> N_num_bits
+        u = u[:, None]
 
         # 取出系数（使用j索引可能产生不同的轴布局）
-        coef_selected = coeff[d, :, j, :]
+        coef_selected = coeff[d, :, interval, :]
 
         # 目标布局：poly shape = (batch, out_dim, 4)
         if coef_selected.shape[0] == batch and coef_selected.shape[1] == out_dim:
@@ -149,7 +160,7 @@ def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 
             else:
                 # 最后手段：显式按每个样本索引收集系数
                 # coeff[d]: shape (out_dim, num_intervals, 4)
-                poly = np.stack([coeff[d, :, int(jj), :] for jj in j], axis=0)
+                poly = np.stack([coeff[d, :, int(jj), :] for jj in interval], axis=0)
 
 
         # 提取系数 (all Q7.24)
@@ -171,14 +182,16 @@ def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 
         u3_b = np.broadcast_to(u3, (batch, out_dim))
 
         # 多项式计算：每项乘法后右移 N_num_bits 以保持 Q7.24
-        term0 = c0
-        term1 = (c1 * u_b) >> N_num_bits
-        term2 = (c2 * u2_b) >> N_num_bits
-        term3 = (c3 * u3_b) >> N_num_bits
+        term0 = c0 << N_num_bits
+        term1 = (c1 * u_b)
+        term2 = (c2 * u2_b)
+        term3 = (c3 * u3_b)
 
-        fd = term0 + term1 + term2 + term3  # Q7.24
+        fd = (term0 + term1 + term2 + term3) >> N_num_bits  # Q7.24
         # important: 防止不在定义区间的值影响结果
-        invalid_mask = (diff < 0) | (diff >= h)
+        interval_raw = mul >> (2 * N_num_bits) # 原始interval无clip
+        invalid_mask = (interval_raw < 0) | (interval_raw > len(grid_d) - 2)
+        # invalid_mask = (interval < 0) | (interval > len(grid_d) - 2)
         if np.any(invalid_mask):
             fd[invalid_mask, :] = 0
 
@@ -213,18 +226,32 @@ def calculate_Piecewise_polynomial_derivative(x_eval, grid, coef, scale_sp, k=3,
         xd = x_eval[:, d]          # (batch,)
         grid_d = grid[d]
         h = int(grid_d[1] - grid_d[0])  # assume uniform and quantized as int
+        h_inv = int(round((1 << (2*N_num_bits)) / h)) # FPGA使用
+        
+        # # 找区间 j: xd ∈ [grid_d[j], grid_d[j+1])
+        # j = np.searchsorted(grid_d, xd, side='right') - 1
+        # j = np.clip(j, 0, len(grid_d) - 2)
+        # diff = xd - grid_d[j]  # (batch,)
 
-        # 找区间 j: xd ∈ [grid_d[j], grid_d[j+1])
-        j = np.searchsorted(grid_d, xd, side='right') - 1
-        j = np.clip(j, 0, len(grid_d) - 2)
-        diff = xd - grid_d[j]  # (batch,)
+        # # 局部坐标 u = (xd - grid_d[j]) / h → Q0.N
+        # u = (diff * h_inv) >> N_num_bits  # (batch,)
+        # u = u[:, None]  # (batch, 1)
 
-        # 局部坐标 u = (xd - grid_d[j]) / h → Q0.N
-        u = (diff.astype(np.int64) << N_num_bits) // h  # (batch,)
-        u = u[:, None]  # (batch, 1)
+        # FPGA等效IF方法
+        x_initial = grid_d[0]
+        diff = xd - x_initial        # ⚠️ 关键：不再减 grid_d[j]
+        mul = diff * h_inv
+        interval = mul >> (2 * N_num_bits)
+
+        # 边界裁剪（等效 internal_finder BC）
+        interval = np.clip(interval, 0, len(grid_d) - 2)
+
+        # 局部坐标（FPGA local_coords）
+        u = (mul - (interval << (2 * N_num_bits))) >> N_num_bits
+        u = u[:, None]
 
         # 取出多项式系数: (batch, out_dim, 4)
-        poly = np.stack([coeff[d, :, int(jj), :] for jj in j], axis=0)  # safe indexing
+        poly = np.stack([coeff[d, :, int(jj), :] for jj in interval], axis=0)  # safe indexing
 
         c0 = poly[:, :, 0].astype(np.int64)
         c1 = poly[:, :, 1].astype(np.int64)
@@ -239,20 +266,22 @@ def calculate_Piecewise_polynomial_derivative(x_eval, grid, coef, scale_sp, k=3,
         u_b = np.broadcast_to(u_val, (batch, out_dim))
         u2_b = np.broadcast_to(u2, (batch, out_dim))
 
-        term_u2 = (3 * c3 * u2_b) >> N_num_bits   # 3*c3*u²
-        term_u1 = (2 * c2 * u_b) >> N_num_bits    # 2*c2*u
-        term_u0 = c1                              # c1
+        term_u2 = (3 * c3 * u2_b)   # 3*c3*u²
+        term_u1 = (2 * c2 * u_b)    # 2*c2*u
+        term_u0 = c1 << N_num_bits                             # c1
 
-        df_du = term_u2 + term_u1 + term_u0       # Q7.24 (same as c*)
+        df_du = (term_u2 + term_u1 + term_u0) >> N_num_bits       # Q7.24 (same as c*)
 
         # --- 转换为 df/dx = (df/du) / h ---
         # df/du is Q7.24, h is Q7.24 → result is Q0.0? No!
         # We want df/dx in Q7.24 format.
         # So: (df_du << N_num_bits) // h  → Q7.24
-        df_dx = (df_du.astype(np.int64) << N_num_bits) // h
+        df_dx = (df_du.astype(np.int64) * h_inv)
 
         # --- 边界 mask: outside [grid_d[j], grid_d[j+1]) → derivative = 0 ---
-        invalid_mask = (diff < 0) | (diff >= h)
+        interval_raw = mul >> (2 * N_num_bits)     # ⚠️ 原始 interval（不要裁剪）
+        invalid_mask = (interval_raw < 0) | (interval_raw > len(grid_d) - 2)
+        #invalid_mask = (diff < 0) | (diff >= h)
         if np.any(invalid_mask):
             df_dx[invalid_mask, :] = 0
 
