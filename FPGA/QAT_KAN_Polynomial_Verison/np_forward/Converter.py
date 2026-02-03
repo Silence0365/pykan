@@ -1,7 +1,15 @@
-from model import QATKAN
-import torch
 import os
+import sys
+
+# 获取model与layer所在的路径
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+if parent_dir not in sys.path:
+    sys.path.insert(0, parent_dir)
+
+import torch
 import numpy as np
+from model import QATKAN
 
 def QAT_Parameter_convert(model_path,M_num_bits= 7,N_num_bits =16):
     # === model load ===

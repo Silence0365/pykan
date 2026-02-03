@@ -28,7 +28,7 @@ y,grad = model_deduction(x_QAT,data)
 print(f"{y[:3]* (2**-24)}")
 # === force detect ===
 dD_dR = desc_differentialer(coords) # shape(batch, in_dim, parameter)
-
+grad_test = grad * (2**-48)
 # # broadcast 
-F = -  np.sum(grad[:, :, None] * dD_dR, axis =1)
-print(f"{F*(2**-48)}")# grad、dD_dR各有scale(2**-16)-->2**-32   
+F = -  np.sum(grad_test[:, :, None] * dD_dR, axis =1)
+print(f"{F}")# grad、dD_dR各有scale(2**-16)-->2**-32   
