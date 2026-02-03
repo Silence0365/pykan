@@ -1,0 +1,4 @@
+ip_repo：vivado的ip文件夹
+ps_pl_axi_test : axi总线测试vivado文件
+test_workspace：Verlet_NVE推理的CPU版本--Vitis的工作区
+vitis_workspace：AXI总线以及串口测试demo--Vitis的工作区

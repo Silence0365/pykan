@@ -1,0 +1,10 @@
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/coresightps_dcc_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/devcfg_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/dmaps_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/scugic_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/scutimer_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/scuwdt_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/uartps_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/xadcps_example.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/edit_cache.dir
+D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/exmetadata/CMakeFiles/rebuild_cache.dir

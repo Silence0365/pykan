@@ -1,0 +1,7 @@
+[
+{
+  "directory": "D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/Verlet_NVE_CPU/src/.compile_commands",
+  "command": "E:\\AMDDesignTools\\2025.2\\Vitis\\gnu\\aarch32\\nt\\gcc-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe -ID:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/Verlet_NVE_CPU/src -isystem D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/export/AXI_platform/sw/standalone_ps7_cortexa9_0/include -isystem E:/AMDDesignTools/2025.2/gnu/aarch32/nt/gcc-arm-none-eabi/x86_64-oesdk-mingw32/usr/lib/arm-xilinx-eabi/gcc/arm-xilinx-eabi/13.3.0/include -isystem E:/AMDDesignTools/2025.2/gnu/aarch32/nt/gcc-arm-none-eabi/x86_64-oesdk-mingw32/usr/lib/arm-xilinx-eabi/gcc/arm-xilinx-eabi/13.3.0/include-fixed -isystem E:/AMDDesignTools/2025.2/Vitis/gnu/aarch32/nt/gcc-arm-none-eabi/aarch32-xilinx-eabi/usr/include  -DSDT -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard  -MMD -MP -specs=D:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/export/AXI_platform/sw/standalone_ps7_cortexa9_0/Xilinx.spec -ID:/FPGA_Prj/ps_pl_axi_test/vitis_workspace/AXI_platform/export/AXI_platform/sw/standalone_ps7_cortexa9_0/include -Wall -Wextra      -O0  -g3     -U__clang__ -o CMakeFiles\\Verlet_NVE_CPU.elf.dir\\dummy.c.obj -c D:\\FPGA_Prj\\ps_pl_axi_test\\vitis_workspace\\Verlet_NVE_CPU\\src\\dummy.c",
+  "file": "D:\\FPGA_Prj\\ps_pl_axi_test\\vitis_workspace\\Verlet_NVE_CPU\\src\\dummy.c"
+}
+]

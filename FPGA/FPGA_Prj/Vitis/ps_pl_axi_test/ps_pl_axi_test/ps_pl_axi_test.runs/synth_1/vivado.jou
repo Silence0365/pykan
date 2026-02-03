@@ -1,0 +1,24 @@
+#-----------------------------------------------------------
+# Vivado v2025.2 (64-bit)
+# SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+# IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+# SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+# Start of session at: Sun Feb  1 03:39:35 2026
+# Process ID         : 32116
+# Current directory  : D:/FPGA_Prj/ps_pl_axi_test/ps_pl_axi_test/ps_pl_axi_test.runs/synth_1
+# Command line       : vivado.exe -log ps_pl_axi_test_wrapper.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source ps_pl_axi_test_wrapper.tcl
+# Log file           : D:/FPGA_Prj/ps_pl_axi_test/ps_pl_axi_test/ps_pl_axi_test.runs/synth_1/ps_pl_axi_test_wrapper.vds
+# Journal file       : D:/FPGA_Prj/ps_pl_axi_test/ps_pl_axi_test/ps_pl_axi_test.runs/synth_1\vivado.jou
+# Running On         : DESKTOP-717IMMS
+# Platform           : Windows Server 2016 or Windows 10
+# Operating System   : 26200
+# Processor Detail   : 12th Gen Intel(R) Core(TM) i7-12700
+# CPU Frequency      : 2112 MHz
+# CPU Physical cores : 12
+# CPU Logical cores  : 20
+# Host memory        : 16870 MB
+# Swap memory        : 25769 MB
+# Total Virtual      : 42639 MB
+# Available Virtual  : 14931 MB
+#-----------------------------------------------------------
+source ps_pl_axi_test_wrapper.tcl -notrace
