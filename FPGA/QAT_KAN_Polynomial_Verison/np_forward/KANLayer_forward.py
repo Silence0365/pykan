@@ -36,7 +36,8 @@ def layer_deduction(x, scale_base, scale_sp, coef, mask, grid, base_fun = 'ident
     y_final = np.sum(y, axis=1)  # (batch, out_dim)
     # rescale
     #y_final = (y_final + (1 << (n - 1))) >> n ##test--rescale
-    df_dD = (df_dD + (1 << (n - 1))) >> n ##test--rescale
+    # df_dD = (df_dD + (1 << (n - 1))) >> n ##test--rescale
+    df_dD = df_dD >> n ##test--rescale
     return y_final,df_dD
 
 #
@@ -75,8 +76,10 @@ def model_deduction(x,data,k=3,base_fun='identity'):
         current_x,df_dD = layer_deduction(
             current_x, scale_base, scale_sp, coef, mask, grid, base_fun, k, m, n,coef_proportion
         )
-        coeff = Piecewise_polynomial.Piecewise_polynomial_table(grid,coef,scale_sp,k,m, n, bit_width=32)
-        Convert_to_coe.coeff_to_coe(coeff, f"layer{layer_idx}_coeff", bit_width=32,save_dir="./pykan/FPGA/COE")
+        coeff,global_shift = Piecewise_polynomial.Piecewise_polynomial_table(grid,coef,scale_sp,k,m, n, bit_width=32)
+        Convert_to_coe.coeff_to_coe(coeff, f"layer{layer_idx}_coeff", bit_width=32,save_dir="./FPGA/COE")
+        if layer_idx == 1:
+            df_dD = df_dD >> 2 #测试FPGA缩放精度
         J.append(df_dD)
         layer_idx += 1
         
@@ -87,7 +90,8 @@ def model_deduction(x,data,k=3,base_fun='identity'):
         # J: (B, in_dim, out_dim)
         # grad: (B, out_dim)
         dE_dD = np.sum(dE_dD[:, None, :] * jacobian, axis=2)  #  # grad = ∂E/∂D   shape:(batch, in_dim)
-        grad = dE_dD # 梯度∂E/∂D
+        # grad = dE_dD # 梯度∂E/∂D
+    grad = dE_dD << 2;  # 测试FPGA缩放后精度
         # print("Shape:", dE_dD.shape)
         # print("Range:", dE_dD.min(), "to", dE_dD.max())
     return current_x,grad

@@ -1,16 +1,16 @@
 # Notice: 此版本为构建新分段多项式版本--FPGA适配版本
 import numpy as np
-
-def Piecewise_polynomial_table(grid,coef,scale_sp,k=3,M_num_bits = 7, N_num_bits = 16, bit_width=48):
+def Piecewise_polynomial_table(grid, coef, scale_sp, k=3, M_num_bits=7, N_num_bits=16, bit_width=32):
     """
-    coef scale_sp 转换为分段多项式系数表
+    coef scale_sp 转换为分段多项式系数表，并应用全局缩放以适配 32 位存储。
 
     inputs: 
             grid:   (in_dim, grid_size)
             coef : (in_dim, out_dim, G-(k+1))
             k : B样条阶数
     outputs:
-            coeff:  (in_dim, out_dim, num_intervals, 4)  四个多项式系数
+            coeff:  (in_dim, out_dim, num_intervals, 4)  → int32 范围内
+            global_shift: int → 全局右移位数（用于精度恢复）
     """
 
     assert k == 3, "only support k = 3"
@@ -35,7 +35,6 @@ def Piecewise_polynomial_table(grid,coef,scale_sp,k=3,M_num_bits = 7, N_num_bits
     #coef : (in_dim, out_dim, G+k)
     out_dim = coef.shape[1]
     num_base = coef.shape[2] # 基函数个数
-
 
     # 初始化新分段多项式系数coeff (in_dim, out_dim, num_intervals, 4)，以 Q 格式整数保存
     coeff = np.zeros((in_dim, out_dim, num_intervals, 4), dtype=np.int64)
@@ -83,10 +82,27 @@ def Piecewise_polynomial_table(grid,coef,scale_sp,k=3,M_num_bits = 7, N_num_bits
 
                 coeff[d, o, j, :] = temp_c
 
-    return coeff
+    # 重缩放-->至32bit内
+    target_max = (1 << (bit_width - 1)) - 1  # 2^31 - 1 = 2147483647
+
+    # 找到全局最大绝对值
+    global_max_abs = np.max(np.abs(coeff))
+
+    # 计算最小右移位数，使得缩放后不溢出
+    global_shift = 0
+    while (global_max_abs >> global_shift) > target_max:
+        global_shift += 1
+
+    # print(f"[INFO] 全局系数最大值: {global_max_abs}")
+    # print(f"[INFO] 全局缩放因子 (右移位数): {global_shift}")
+
+    # 应用全局缩放，并转为 int32（节省内存，明确位宽）
+    coeff_scaled = (coeff >> global_shift).astype(np.int32)
+
+    return coeff_scaled, global_shift
 
 
-def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 7, N_num_bits = 16, bit_width=48):
+def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 7, N_num_bits = 16, bit_width=32):
     """
     coeff新分段多项式计算函数
 
@@ -103,7 +119,7 @@ def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 
             y_eval:(batch,in_dim,out_dim)
     """
     # 计算系数
-    coeff = Piecewise_polynomial_table(grid,coef,scale_sp,k,M_num_bits, N_num_bits, bit_width=48)
+    coeff,global_shift = Piecewise_polynomial_table(grid,coef,scale_sp,k,M_num_bits, N_num_bits, bit_width=32)
     
     # x_eval:     (batch, in_dim) 
     batch = x_eval.shape[0]
@@ -164,10 +180,10 @@ def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 
 
 
         # 提取系数 (all Q7.24)
-        c0 = poly[:, :, 0].astype(np.int64)
-        c1 = poly[:, :, 1].astype(np.int64)
-        c2 = poly[:, :, 2].astype(np.int64)
-        c3 = poly[:, :, 3].astype(np.int64)
+        c0 = (poly[:, :, 0].astype(np.int64)) << global_shift
+        c1 = (poly[:, :, 1].astype(np.int64)) << global_shift
+        c2 = (poly[:, :, 2].astype(np.int64)) << global_shift
+        c3 = (poly[:, :, 3].astype(np.int64)) << global_shift
 
         # u is (batch, 1), Q0.N_num_bits
         u_val = u.astype(np.int64)  # (batch, 1)
@@ -198,7 +214,7 @@ def calculate_Piecewise_polynomial(x_eval, grid, coef, scale_sp,k, M_num_bits = 
         y_eval[:, d, :] = fd
     return y_eval.astype(np.int64)
 
-def calculate_Piecewise_polynomial_derivative(x_eval, grid, coef, scale_sp, k=3,M_num_bits=7, N_num_bits=16, bit_width=48):
+def calculate_Piecewise_polynomial_derivative(x_eval, grid, coef, scale_sp, k=3,M_num_bits=7, N_num_bits=16, bit_width=32):
     """
     coeff新分段多项式导数计算函数
 
@@ -215,7 +231,7 @@ def calculate_Piecewise_polynomial_derivative(x_eval, grid, coef, scale_sp, k=3,
             y_eval:(batch,in_dim,out_dim)
     """
     # Step 1: 复用前向的 coeff 表
-    coeff = Piecewise_polynomial_table(grid, coef, scale_sp, k, M_num_bits, N_num_bits, bit_width)
+    coeff,global_shift = Piecewise_polynomial_table(grid, coef, scale_sp, k, M_num_bits, N_num_bits, bit_width)
     
     batch, in_dim = x_eval.shape
     out_dim = coef.shape[1]
@@ -253,10 +269,10 @@ def calculate_Piecewise_polynomial_derivative(x_eval, grid, coef, scale_sp, k=3,
         # 取出多项式系数: (batch, out_dim, 4)
         poly = np.stack([coeff[d, :, int(jj), :] for jj in interval], axis=0)  # safe indexing
 
-        c0 = poly[:, :, 0].astype(np.int64)
-        c1 = poly[:, :, 1].astype(np.int64)
-        c2 = poly[:, :, 2].astype(np.int64)
-        c3 = poly[:, :, 3].astype(np.int64)
+        c0 = (poly[:, :, 0].astype(np.int64)) << global_shift
+        c1 = (poly[:, :, 1].astype(np.int64)) << global_shift
+        c2 = (poly[:, :, 2].astype(np.int64)) << global_shift
+        c3 = (poly[:, :, 3].astype(np.int64)) << global_shift
 
         # --- 计算 df/du = 3*c3*u^2 + 2*c2*u + c1 ---
         u_val = u.astype(np.int64)  # (batch, 1)
